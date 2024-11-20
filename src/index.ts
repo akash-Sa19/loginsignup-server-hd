@@ -5,15 +5,16 @@ import compression from "compression";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./utils/dbConnection";
+import authRoutes from "./routes/auth.routes";
 
 // config
 dotenv.config({
   path: "./.env",
 });
-
 const PORT = process.env.PORT || 3000;
 const app = express();
 
+// db connection
 connectDB()
   .then(() => {
     app.on("error", (error: any) => {
@@ -31,6 +32,7 @@ connectDB()
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(express.json());
 app.use(
   cors({
     origin: [process.env.CLIENT_SIDE_URL],
@@ -40,6 +42,8 @@ app.use(
 
 // routes
 app.get("/", async (req: express.Request, res: express.Response, next) => {
+  console.log("accessing...");
   res.send("Hello World!");
   next();
 });
+app.use("/api/v1/user", authRoutes);
