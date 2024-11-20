@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import dotenv from "dotenv";
-import connectDB from "./utils/dbConnection";
+import connectDB from "./lib/dbConnection";
 import authRoutes from "./routes/auth.routes";
 
 // config
