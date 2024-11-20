@@ -39,8 +39,7 @@ app.use((0, cors_1.default)({
 }));
 // routes
 app.get("/", async (req, res, next) => {
-    console.log("accessing...");
-    res.send("Hello World!");
+    res.send("Accessing server side of Highway Delight Project");
     next();
 });
 app.use("/api/v1/user", auth_routes_1.default);

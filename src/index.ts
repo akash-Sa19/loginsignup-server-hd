@@ -42,8 +42,7 @@ app.use(
 
 // routes
 app.get("/", async (req: express.Request, res: express.Response, next) => {
-  console.log("accessing...");
-  res.send("Hello World!");
+  res.send("Accessing server side of Highway Delight Project");
   next();
 });
 app.use("/api/v1/user", authRoutes);
