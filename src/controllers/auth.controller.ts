@@ -239,4 +239,24 @@ const verifyOtp = async (req: express.Request, res: express.Response) => {
     return sendErrorResponse(res, 500, `🙅🏼‍♂️ Something went wrong`, error);
   }
 };
-export { signup, login, signout, verifyOtp };
+
+const dashboard = async (req: AuthRequest, res: express.Response) => {
+  try {
+    console.log("accessing dashboard route...");
+    // 1. ckeck if user is logged in
+    const userId = req.user?._id;
+    if (!userId) {
+      return sendErrorResponse(res, 400, `🙅🏼‍♂️ User not logged in`);
+    }
+
+    // 2. send response
+    return sendSuccessResponse(res, `✨ Welcome ${req.user?.name}`, {
+      name: req.user?.name,
+      email: req.user?.email,
+    });
+  } catch (error) {
+    console.log(error);
+    return sendErrorResponse(res, 500, `🙅🏼‍♂️ Something went wrong`, error);
+  }
+};
+export { signup, login, signout, verifyOtp, dashboard };

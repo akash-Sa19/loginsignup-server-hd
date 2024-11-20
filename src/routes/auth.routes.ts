@@ -4,6 +4,7 @@ import {
   signup,
   signout,
   verifyOtp,
+  dashboard,
 } from "../controllers/auth.controller";
 import { requireAuth } from "../middlewares/auth.middleware";
 
@@ -33,6 +34,14 @@ authRoutes.route("/signout").get(async (req, res, next) => {
 authRoutes.route("/verify-otp").post(async (req, res) => {
   try {
     await verifyOtp(req, res);
+  } catch (error) {
+    console.error(error);
+  }
+});
+authRoutes.route("/dashboard").get(async (req, res, next) => {
+  try {
+    await requireAuth(req, res, next);
+    await dashboard(req, res);
   } catch (error) {
     console.error(error);
   }
