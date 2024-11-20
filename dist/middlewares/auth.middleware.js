@@ -15,12 +15,11 @@ const requireAuth = async (req, res, next) => {
         }
         // 2. verify access token
         const decoded = jsonwebtoken_1.default.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        console.log("decoded Token :", decoded);
         req.user = decoded;
         next();
     }
     catch (error) {
-        console.log(error);
+        console.error(`Something went wrong while verifying access token, ${error}`);
         return (0, responseHandler_1.sendErrorResponse)(res, 500, `🙅🏼‍♂️ Something went wrong`, error);
     }
 };

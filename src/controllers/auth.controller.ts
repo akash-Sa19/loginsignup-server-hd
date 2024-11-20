@@ -16,24 +16,15 @@ const signup = async (req: AuthRequest, res: express.Response) => {
     //  1. get user data from req.body
     const { name, email, password } = req.body;
 
-    console.log(name, email, password);
-    console.log(typeof password);
-
     // 2. validation
     if ([name, email, password].some((field) => field?.trim() === "")) {
-      return res.status(400).json({
-        status: "conflict",
-        message: `🙅🏼‍♂️ All field is required`,
-      });
+      return sendErrorResponse(res, 400, `🙅🏼‍♂️ All fields are required`);
     }
 
     // 3. check if user already exists
     let user = await User.findOne({ email });
     if (user && user.isVerified) {
-      return res.status(409).json({
-        status: "conflict",
-        message: "🙅🏼‍♂️ Email Verified, use another email",
-      });
+      return sendErrorResponse(res, 400, `🙅🏼‍♂️ User already exists`);
     }
 
     // 4. hash password
@@ -84,26 +75,13 @@ const signup = async (req: AuthRequest, res: express.Response) => {
       });
     }
     // 8. send verification email
-    // await sendOtpEmail(email, otp);
+    await sendOtpEmail(email, otp);
 
     // 9. send response
-    return res.status(200).json({
-      status: "success",
-      message: "👍🏼 User created successfully",
-      body: {
-        name: user.name,
-        email: user.email,
-        createdAt: user.createdAt,
-      },
-    });
+    return sendSuccessResponse(res, `✨ User created successfully`);
   } catch (error) {
-    console.log(error);
-    console.log("Something went wrong while creating user", error);
-    return res.status(500).json({
-      status: "error",
-      message: "😵 Something went wrong while!",
-      error: error.message || error.response?.data,
-    });
+    console.error("Something went wrong while creating user", error);
+    return sendErrorResponse(res, 500, `🙅🏼‍♂️ Something went wrong`, error);
   }
 };
 
@@ -158,7 +136,7 @@ const login = async (req: express.Request, res: express.Response) => {
       createdAt: user.createdAt,
     });
   } catch (error) {
-    console.log(error);
+    console.error(`Something went wrong while logging in ${error}`);
     return sendErrorResponse(res, 500, `🙅🏼‍♂️ Something went wrong`, error);
   }
 };
@@ -179,7 +157,7 @@ const signout = async (req: AuthRequest, res: express.Response) => {
     // 3. send response
     return sendSuccessResponse(res, `👋🏼 See you later`);
   } catch (error) {
-    console.log(error);
+    console.error(`Something went wrong while logging out, ${error}`);
     return sendErrorResponse(res, 500, `🙅🏼‍♂️ Something went wrong`, error);
   }
 };
@@ -189,7 +167,6 @@ const verifyOtp = async (req: express.Request, res: express.Response) => {
     console.log("accessing verify-otp route...");
 
     const { email, otp } = req.body;
-    console.log({ email, otp });
 
     // 1. check if user exists with this email
     const user = await User.findOne({ email });
@@ -235,7 +212,7 @@ const verifyOtp = async (req: express.Request, res: express.Response) => {
     // 8. send response
     return sendSuccessResponse(res, `🎉 Otp verified successfully`);
   } catch (error) {
-    console.log(error);
+    console.error(`Something went wrong while verifying otp, ${error}`);
     return sendErrorResponse(res, 500, `🙅🏼‍♂️ Something went wrong`, error);
   }
 };
@@ -255,7 +232,7 @@ const dashboard = async (req: AuthRequest, res: express.Response) => {
       email: req.user?.email,
     });
   } catch (error) {
-    console.log(error);
+    console.error(`Something went wrong while accessing dashboard, ${error}`);
     return sendErrorResponse(res, 500, `🙅🏼‍♂️ Something went wrong`, error);
   }
 };

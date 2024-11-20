@@ -8,10 +8,10 @@ const connectDB = async () => {
     const MONGODB_URL = process.env.MONGODB_URL.replace("<password>", process.env.MONGODB_PASSWORD);
     try {
         const connection = await mongoose_1.default.connect(MONGODB_URL);
-        console.log(`MongoDB Connected: ${connection.connection.host}`);
+        console.log(`MongoDB Connected`);
     }
     catch (error) {
-        console.log(`Error : ${error.message}`);
+        console.error(`Error : ${error.message}`);
         process.exit(1);
     }
 };

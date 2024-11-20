@@ -2,7 +2,19 @@
 
 ### Project Description
 
-This project is a task from Highway Delite internship selection program.
+This project is a task from Highway Delite internship selection program. As part of the task, I developed a fully functional website incorporating features such as user signup, login, and signup with OTP verification. For the front end, I utilized Vite.js, TailwindCSS, and TypeScript to create a responsive and efficient user interface. On the back end, I employed Node.js, Express.js, MongoDB, and TypeScript to build a robust server, integrating essential features like email functionality using Nodemailer, authentication with JWT, and password encryption with Bcrypt.js.
+
+Here are the project details:
+
+🔗 Client Repository: [Github Link](https://github.com/akash-Sa19/loginsignup-client-hd)
+
+🔗 Server Repository: [Github Link](https://github.com/akash-Sa19/loginsignup-server-hd)
+
+🌐 Live Website: [visit Here](https://loginsignup-client-hd.vercel.app)
+
+This project demonstrates my ability to design and implement secure, scalable, and user-friendly web applications using modern development frameworks and tools.
+
+**Please note that the first signup attempt may take some time due to the server's cold start on Render.com. I kindly request your patience for a few minutes during this process**
 
 ### How to Run project Locally
 

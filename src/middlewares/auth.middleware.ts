@@ -21,12 +21,13 @@ export const requireAuth = async (
       token,
       process.env.ACCESS_TOKEN_SECRET as string
     );
-    console.log("decoded Token :", decoded);
     req.user = decoded;
 
     next();
   } catch (error) {
-    console.log(error);
+    console.error(
+      `Something went wrong while verifying access token, ${error}`
+    );
     return sendErrorResponse(res, 500, `🙅🏼‍♂️ Something went wrong`, error);
   }
 };
